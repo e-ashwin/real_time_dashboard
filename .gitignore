@@ -1,0 +1,9 @@
+# Ignore node_modules (should never be pushed)
+node_modules/
+
+# Ignore build artifacts
+.next/
+out/
+
+# Ignore large Next.js SWC binaries
+frontend/node_modules/@next/swc-*
