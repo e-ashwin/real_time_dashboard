@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Fix alignment issues in MUI Box components */
+.MuiBox-root {
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 20 !important;
+}
+
+
+/* Specific fix for dashboard layout */
+.MuiBox-root.css-109hf5j {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Fix for nested Box components */
+.MuiBox-root > .MuiBox-root {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+/* Ensure proper spacing */
+.MuiContainer-root {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+
+
+:root {
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Smooth transitions */
+.MuiPaper-root,
+.MuiButton-root,
+.MuiCard-root {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Better scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.MuiChip-label > MuiChip-labelMedium > css-1dybbl5-MuiChip-label{
+  color: black;
+}
+
+/* Smooth transitions for theme changes */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
