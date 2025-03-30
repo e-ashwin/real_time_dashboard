@@ -16,8 +16,8 @@ import Link from "next/link";
 import LiveDataCards from "../components/LiveDataCards";
 import '../styles/globals.css';
 
-const API_URL = "http://localhost:8000/data";
-const WS_URL = "ws://localhost:8000";
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const WS_URL = `ws://${process.env.NEXT_PUBLIC_BACKEND_URL}`;
 
 // AQI color scale matching aqi.in
 const aqiColors = {
