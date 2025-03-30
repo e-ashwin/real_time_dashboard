@@ -1,10 +1,11 @@
 {
-  "/": "pages/index.js",
   "/_app": "pages/_app.js",
-  "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/analytics": "pages/analytics.js",
-  "/creditsPage": "pages/creditsPage.js",
-  "/dashboard": "pages/dashboard.js",
-  "/notifications": "pages/notifications.js"
+  "/analytics": "pages/analytics.html",
+  "/dashboard": "pages/dashboard.html",
+  "/creditsPage": "pages/creditsPage.html",
+  "/": "pages/index.html",
+  "/notifications": "pages/notifications.html",
+  "/_document": "pages/_document.js",
+  "/404": "pages/404.html"
 }

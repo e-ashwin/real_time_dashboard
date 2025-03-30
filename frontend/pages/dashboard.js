@@ -11,12 +11,7 @@ import LiveDataCards from "../components/LiveDataCards";
 import StatusAlert from "../components/StatusAlert";
 import Link from "next/link";
 
-// Dynamic import for Heatmap to avoid SSR issues
 import dynamic from 'next/dynamic';
-const Heatmap = dynamic(
-  () => import('../components/HeatMap'),
-  { ssr: false }
-);
 
 // Dynamic import for LiveDataTable (if it contains any browser-specific code)
 const LiveDataTable = dynamic(
@@ -26,8 +21,8 @@ const LiveDataTable = dynamic(
 
 Chart.register(...registerables);
 
-const API_URL = "http://localhost:8000/data";
-const WS_URL = "ws://localhost:8000";
+const API_URL = 'https://real-time-dashboard.onrender.com/data';
+const WS_URL = 'wss://real-time-dashboard.onrender.com/data';
 const MAX_POINTS = 30;
 
 const Dashboard = () => {
@@ -139,54 +134,6 @@ const Dashboard = () => {
         </motion.div>
       </Box>
 
-      {/* View Toggle */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-      >
-        <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
-          <ButtonGroup variant="contained" size="large">
-            <Button 
-              onClick={() => setActiveView("charts")} 
-              color={activeView === "charts" ? "primary" : "inherit"}
-              sx={{ px: 4 }}
-            >
-              Data Charts
-            </Button>
-            <Button 
-              onClick={() => setActiveView("map")} 
-              color={activeView === "map" ? "primary" : "inherit"}
-              sx={{ px: 4 }}
-            >
-              Heatmap View
-            </Button>
-          </ButtonGroup>
-        </Box>
-      </motion.div>
-
-      {/* Status Alert */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.3, type: "spring" }}
-      >
-        <Paper
-          elevation={4}
-          sx={{
-            p: 3,
-            mb: 4,
-            borderRadius: 3,
-            bgcolor: theme.palette[aqiStatus].main,
-            color: "white",
-            textAlign: "center",
-            boxShadow: `0 8px 16px ${theme.palette[aqiStatus].main}33`
-          }}
-        >
-          <StatusAlert pm25={currentData?.pm25 || 0} />
-        </Paper>
-      </motion.div>
-
       {/* Current Metrics */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -198,148 +145,113 @@ const Dashboard = () => {
 
       {/* Main Content Area */}
       <Box sx={{ mt: 4 }}>
-        {activeView === "charts" ? (
-          <Grid container spacing={4}>
-            {/* Chart Selection */}
-            <Grid item xs={12}>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                <ButtonGroup fullWidth>
-                  {["pm25", "temp", "humidity", "wind"].map((metric) => (
-                    <Button
-                      key={metric}
-                      onClick={() => setActiveChart(metric)}
-                      variant={activeChart === metric ? "contained" : "outlined"}
-                      color="primary"
-                      sx={{ py: 1.5 }}
-                    >
-                      {chartData[metric]?.datasets[0].label}
-                    </Button>
-                  ))}
-                </ButtonGroup>
-              </motion.div>
-            </Grid>
+        <Grid container spacing={4}>
+          {/* Chart Selection */}
+          <Grid item xs={12}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              <ButtonGroup fullWidth>
+                {["pm25", "temp", "humidity", "wind"].map((metric) => (
+                  <Button
+                    key={metric}
+                    onClick={() => setActiveChart(metric)}
+                    variant={activeChart === metric ? "contained" : "outlined"}
+                    color="primary"
+                    sx={{ py: 1.5 }}
+                  >
+                    {chartData[metric]?.datasets[0].label}
+                  </Button>
+                ))}
+              </ButtonGroup>
+            </motion.div>
+          </Grid>
 
-            {/* Animated Chart */}
-            <Grid item xs={12}>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-              >
-                <Card sx={{ 
-                  p: 3, 
-                  borderRadius: 3, 
-                  boxShadow: theme.shadows[2],
-                  minHeight: "400px",
-                  border: `1px solid ${theme.palette.divider}`
-                }}>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeChart}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {chartData[activeChart] ? (
-                        <Line 
-                          data={chartData[activeChart]} 
-                          options={{
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            animation: {
-                              duration: 1000,
-                              easing: 'easeOutQuart'
-                            },
-                            plugins: {
-                              legend: { display: false },
-                              tooltip: {
-                                backgroundColor: theme.palette.background.paper,
-                                bodyColor: theme.palette.text.primary,
-                                titleColor: theme.palette.primary.main,
-                                borderColor: theme.palette.divider,
-                                borderWidth: 1,
-                                padding: 12,
-                                boxShadow: theme.shadows[3],
-                                cornerRadius: 8
+          {/* Animated Chart */}
+          <Grid item xs={12}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              <Card sx={{ 
+                p: 3, 
+                borderRadius: 3, 
+                boxShadow: theme.shadows[2],
+                minHeight: "400px",
+                border: `1px solid ${theme.palette.divider}`
+              }}>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeChart}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {chartData[activeChart] ? (
+                      <Line 
+                        data={chartData[activeChart]} 
+                        options={{
+                          responsive: true,
+                          maintainAspectRatio: false,
+                          animation: {
+                            duration: 1000,
+                            easing: 'easeOutQuart'
+                          },
+                          plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                              backgroundColor: theme.palette.background.paper,
+                              bodyColor: theme.palette.text.primary,
+                              titleColor: theme.palette.primary.main,
+                              borderColor: theme.palette.divider,
+                              borderWidth: 1,
+                              padding: 12,
+                              boxShadow: theme.shadows[3],
+                              cornerRadius: 8
+                            }
+                          },
+                          scales: {
+                            y: {
+                              grid: { 
+                                color: theme.palette.divider,
+                                drawBorder: false
                               }
                             },
-                            scales: {
-                              y: {
-                                grid: { 
-                                  color: theme.palette.divider,
-                                  drawBorder: false
-                                }
-                              },
-                              x: {
-                                grid: { 
-                                  color: theme.palette.divider,
-                                  drawBorder: false
-                                }
+                            x: {
+                              grid: { 
+                                color: theme.palette.divider,
+                                drawBorder: false
                               }
                             }
-                          }}
-                        />
-                      ) : (
-                        <Box sx={{ display: "flex", justifyContent: "center", pt: 10 }}>
-                          <CircularProgress />
-                        </Box>
-                      )}
-                    </motion.div>
-                  </AnimatePresence>
-                </Card>
-              </motion.div>
-            </Grid>
-
-            {/* Data Table */}
-            <Grid item xs={12}>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
-              >
-                <LiveDataTable data={data} />
-              </motion.div>
-            </Grid>
+                          }
+                        }}
+                      />
+                    ) : (
+                      <Box sx={{ display: "flex", justifyContent: "center", pt: 10 }}>
+                        <CircularProgress />
+                      </Box>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </Card>
+            </motion.div>
           </Grid>
-        ) : (
-          /* Heatmap View */
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Paper sx={{ 
-              p: 0, 
-              borderRadius: 3, 
-              boxShadow: theme.shadows[4],
-              height: "70vh",
-              minHeight: "600px",
-              overflow: "hidden",
-              position: "relative"
-            }}>
-              <Heatmap data={data} />
-              <Box sx={{ 
-                position: "absolute", 
-                bottom: 16, 
-                right: 16,
-                bgcolor: 'background.paper',
-                px: 2,
-                py: 1,
-                borderRadius: 2,
-                boxShadow: 1
-              }}>
-                <Typography variant="caption" color="text.secondary">
-                  Location: {currentData?.location || "Vijay Chowk, New Delhi"}
-                </Typography>
-              </Box>
-            </Paper>
-          </motion.div>
-        )}
+
+          {/* Data Table */}
+          <Grid item xs={12}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+            >
+              <LiveDataTable data={data} />
+            </motion.div>
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   );

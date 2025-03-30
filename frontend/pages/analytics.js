@@ -32,8 +32,8 @@ import { motion } from "framer-motion";
 
 Chart.register(...registerables);
 
-const API_URL = "http://localhost:8000/data";
-const WS_URL = "ws://localhost:8000/ws";
+const API_URL = 'https://real-time-dashboard.onrender.com/data';
+const WS_URL = 'wss://real-time-dashboard.onrender.com/data';
 const MAX_DATA_POINTS = 500;
 
 const AnalyticsPage = () => {

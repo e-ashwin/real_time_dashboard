@@ -97,7 +97,7 @@ const AirQualityMonitor = () => {
 
   useEffect(() => {
     // Connect to WebSocket
-    ws.current = new WebSocket('ws://localhost:8000');
+    ws.current = new WebSocket('wss://real-time-dashboard.onrender.com/data');
 
     ws.current.onopen = () => {
       console.log('WebSocket connected');

@@ -9,6 +9,7 @@ import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
 import '@fontsource/inter/700.css';
 import Head from "next/head";
+import '../styles/globals.css';
 
 export default function MyApp({ Component, pageProps }) {
   const [darkMode, setDarkMode] = useState(false);

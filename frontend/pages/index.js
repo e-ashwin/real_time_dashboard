@@ -14,10 +14,9 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import LiveDataCards from "../components/LiveDataCards";
-import '../styles/globals.css';
 
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-const WS_URL = `ws://${process.env.NEXT_PUBLIC_BACKEND_URL}`;
+const API_URL = 'https://real-time-dashboard.onrender.com/data';
+const WS_URL = 'wss://real-time-dashboard.onrender.com/data';
 
 // AQI color scale matching aqi.in
 const aqiColors = {
